@@ -1,7 +1,3 @@
-# CS105 - Computer Graphic
-| MSSV     |   Họ và tên      |
-|----------|------------------|
-| 18521653 | Nguyễn Kiều Vinh |
-| 18521283 | Đỗ Mạnh Quân     |
-| 18521302 | Nguyễn Tuấn Quang|
-|18521256| Nguyễn Hoàng Phúc|
+Cài đặt Live Server trên Visual Studio Code 
+Chọn File->Open Folder->Project
+Mở file index.html và Open with live server
