@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Computer Graphics demo</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- <style>
+		/* .navbar-custom {
+			background-color: white;
+			color: yellow;
+		} */
+	</style> -->
+  </head>
+
+  <body>
+    <input
+      type="file"
+      accept="image/*"
+      id="texture"
+      style="display: none"
+      onchange="SetTexture(window.URL.createObjectURL(this.files[0]))"
+    />
+
+    <div id="rendering" class="w-100 h-100 position-fixed"></div>
+    <nav
+      class="navbar navbar-expand-lg"
+      style="background-color: lightslategray"
+    >
+      <a class="navbar-brand" href="#"
+        ><font color="white">CS105.L21 - Computer Graphics</font></a
+      >
+
+      <button
+        class="navbar-toggler mr-3"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown mr-3">
+            <a
+              class="nav-link dropdown-toggle mr-1"
+              href="#"
+              id="geometryDropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <font color="white">Geometry</font>
+            </a>
+            <div
+              class="dropdown-menu"
+              aria-labelledby="geometryDropdownMenuLink"
+            >
+              <a href="#" class="dropdown-item" onclick="RenderGeo(1);">Cube</a>
+              <a href="#" class="dropdown-item" onclick="RenderGeo(2);"
+                >Sphere</a
+              >
+              <a href="#" class="dropdown-item" onclick="RenderGeo(3);">Cone</a>
+              <a href="#" class="dropdown-item" onclick="RenderGeo(4);"
+                >Cylinder</a
+              >
+              <a href="#" class="dropdown-item" onclick="RenderGeo(5);"
+                >Torus</a
+              >
+              <a href="#" class="dropdown-item" onclick="RenderGeo(6);"
+                >TorusKnot</a
+              >
+              <a href="#" class="dropdown-item" onclick="RenderGeo(7);"
+                >Teapot</a
+              >
+              <a href="#" class="dropdown-item" onclick="RenderGeo(8);"
+                >Icosahedron</a
+              >
+              <a href="#" class="dropdown-item" onclick="RenderGeo(9);"
+                >Dodecahedron</a
+              >
+              <a href="#" class="dropdown-item" onclick="RenderGeo(10);"
+                >Octahedron</a
+              >
+              <a href="#" class="dropdown-item" onclick="RenderGeo(11);"
+                >Tetrahedron</a
+              >
+            </div>
+          </li>
+          <li class="nav-item dropdown mr-3">
+            <a
+              class="nav-link dropdown-toggle mr-1"
+              href="#"
+              id="surfaceDropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <font color="white">Surface</font>
+            </a>
+            <div
+              class="dropdown-menu"
+              aria-labelledby="surfaceDropdownMenuLink"
+            >
+              <a href="#" class="dropdown-item" onclick="SetMaterial(1);"
+                >Point</a
+              >
+              <a href="#" class="dropdown-item" onclick="SetMaterial(2);"
+                >Line</a
+              >
+              <a href="#" class="dropdown-item" onclick="SetMaterial(3);"
+                >Solid</a
+              >
+              <a
+                href="#"
+                class="dropdown-item"
+                name="button"
+                onclick="Uploadimage();"
+                >Texture</a
+              >
+            </div>
+          </li>
+          <li class="nav-item dropdown mr-3">
+            <a
+              class="nav-link dropdown-toggle mr-1"
+              href="#"
+              id="navbarDropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <font color="white">Light</font>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a href="#" class="dropdown-item" onclick="SetPointLight()"
+                >Light</a
+              >
+              <a href="#" class="dropdown-item" onclick="SetPointLight(2)">
+                Directional Light</a
+              >
+              <a href="#" class="dropdown-item" onclick="SetPointLight(3)"
+                >Spot Light</a
+              >
+              <a href="#" class="dropdown-item" onclick="RemoveLight()"
+                >Remove Light</a
+              >
+            </div>
+          </li>
+          <li class="nav-item dropdown mr-3">
+            <a
+              class="nav-link dropdown-toggle mr-1"
+              href="#"
+              id="navbarDropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <font color="white">Animation</font>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a href="#" class="dropdown-item" onclick="Animation1()"
+                >Vertical Rotate</a
+              >
+              <a href="#" class="dropdown-item" onclick="Animation2()"
+                >Horizontal Rotate</a
+              >
+              <a href="#" class="dropdown-item" onclick="Animation3()"
+                >Auto Rotate</a
+              >
+              <a href="#" class="dropdown-item" onclick="Animation4()"
+                >Collision</a
+              >
+              <a href="#" class="dropdown-item" onclick="Animation6()"
+                >Bouncy</a
+              >
+              <a href="#" class="dropdown-item" onclick="Animation5()"
+                >Juggle</a
+              >
+              <a href="#" class="dropdown-item" onclick="Animation7()">Roll</a>
+              <a href="#" class="dropdown-item" onclick="ResetAnimation()"
+                >Reset</a
+              >
+              <!-- <a href="#" class="dropdown-item" onclick="Animation6()">Animation6</a> -->
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div id="content">
+      <div class="mt-5">
+        <div>
+          <div class="col-1">
+            <button
+              type="button"
+              class="btn btn-light shadow movebutton"
+              onclick="Translate()"
+            >
+              <svg
+                class="bi bi-arrows-move"
+                width="1em"
+                height="1em"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M6.5 8a.5.5 0 0 0-.5-.5H1.5a.5.5 0 0 0 0 1H6a.5.5 0 0 0 .5-.5z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M3.854 5.646a.5.5 0 0 0-.708 0l-2 2a.5.5 0 0 0 0 .708l2 2a.5.5 0 0 0 .708-.708L2.207 8l1.647-1.646a.5.5 0 0 0 0-.708zM9.5 8a.5.5 0 0 1 .5-.5h4.5a.5.5 0 0 1 0 1H10a.5.5 0 0 1-.5-.5z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M12.146 5.646a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L13.793 8l-1.647-1.646a.5.5 0 0 1 0-.708zM8 9.5a.5.5 0 0 0-.5.5v4.5a.5.5 0 0 0 1 0V10a.5.5 0 0 0-.5-.5z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M5.646 12.146a.5.5 0 0 0 0 .708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8 13.793l-1.646-1.647a.5.5 0 0 0-.708 0zM8 6.5a.5.5 0 0 1-.5-.5V1.5a.5.5 0 0 1 1 0V6a.5.5 0 0 1-.5.5z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M5.646 3.854a.5.5 0 0 1 0-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8 2.207 6.354 3.854a.5.5 0 0 1-.708 0z"
+                />
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="btn btn-light shadow repeatbutton"
+              onclick="Rotate()"
+            >
+              <svg
+                class="bi bi-arrow-repeat"
+                width="1em"
+                height="1em"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M2.854 7.146a.5.5 0 0 0-.708 0l-2 2a.5.5 0 1 0 .708.708L2.5 8.207l1.646 1.647a.5.5 0 0 0 .708-.708l-2-2zm13-1a.5.5 0 0 0-.708 0L13.5 7.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0 0-.708z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M8 3a4.995 4.995 0 0 0-4.192 2.273.5.5 0 0 1-.837-.546A6 6 0 0 1 14 8a.5.5 0 0 1-1.001 0 5 5 0 0 0-5-5zM2.5 7.5A.5.5 0 0 1 3 8a5 5 0 0 0 9.192 2.727.5.5 0 1 1 .837.546A6 6 0 0 1 2 8a.5.5 0 0 1 .501-.5z"
+                />
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="btn btn-light shadow"
+              onclick="Scale()"
+            >
+              <svg
+                class="bi bi-arrows-fullscreen"
+                width="1em"
+                height="1em"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M1.464 10.536a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3.5a.5.5 0 0 1-.5-.5v-3.5a.5.5 0 0 1 .5-.5z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M5.964 10a.5.5 0 0 1 0 .707l-4.146 4.147a.5.5 0 0 1-.707-.708L5.257 10a.5.5 0 0 1 .707 0zm8.854-8.854a.5.5 0 0 1 0 .708L10.672 6a.5.5 0 0 1-.708-.707l4.147-4.147a.5.5 0 0 1 .707 0z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M10.5 1.5A.5.5 0 0 1 11 1h3.5a.5.5 0 0 1 .5.5V5a.5.5 0 0 1-1 0V2h-3a.5.5 0 0 1-.5-.5zm4 9a.5.5 0 0 0-.5.5v3h-3a.5.5 0 0 0 0 1h3.5a.5.5 0 0 0 .5-.5V11a.5.5 0 0 0-.5-.5z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M10 9.964a.5.5 0 0 0 0 .708l4.146 4.146a.5.5 0 0 0 .708-.707l-4.147-4.147a.5.5 0 0 0-.707 0zM1.182 1.146a.5.5 0 0 0 0 .708L5.328 6a.5.5 0 0 0 .708-.707L1.889 1.146a.5.5 0 0 0-.707 0z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M5.5 1.5A.5.5 0 0 0 5 1H1.5a.5.5 0 0 0-.5.5V5a.5.5 0 0 0 1 0V2h3a.5.5 0 0 0 .5-.5z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+    <script type="module" src="./index.js"></script>
+
+    <script>
+      function ResetAnimation() {
+        RemoveAllAnimation();
+      }
+
+      $(document).ready(function () {
+        const $valueSpanFOV = $(".valueSpanFOV");
+        const $valueSpanNear = $(".valueSpanNear");
+        const $valueSpanFar = $(".valueSpanFar");
+        const $valueSpanColor = $(".valueSpanColor");
+        // const $valueSpanLightColor=$('.valueSpanLightColor');
+        const $valueFOV = $("#customFOV");
+        const $valueNear = $("#customNear");
+        const $valueFar = $("#customFar");
+        const $valueColor = $("#customColor");
+        // const $valueLightColor = $('#customLightColor');
+        $valueSpanFOV.html("FOV: " + $valueFOV.val());
+        $valueFOV.on("input change", () => {
+          $valueSpanFOV.html("FOV: " + $valueFOV.val());
+          setFOV($valueFOV.val());
+        });
+
+        $valueSpanNear.html("Near: " + $valueNear.val());
+        $valueNear.on("input change", () => {
+          $valueSpanNear.html("Near: " + $valueNear.val());
+          setNear($valueNear.val());
+        });
+
+        $valueSpanFar.html("Far: " + $valueFar.val());
+        $valueFar.on("input change", () => {
+          $valueSpanFar.html("Far: " + $valueFar.val());
+          setFar($valueFar.val());
+        });
+
+        $valueSpanColor.html("Color: " + $valueColor.val());
+        $valueColor.on("input change", () => {
+          $valueSpanColor.html("Color: " + $valueColor.val());
+          setColor($valueColor.val());
+        });
+
+        // $valueSpanLightColor.html("Light Color: " + $valueLightColor.val());
+        // $valueLightColor.on('input change', () => {
+        // 	$valueSpanLightColor.html("Light Color: " + $valueLightColor.val());
+        // 	setColor($valueLightColor.val());
+        // });
+      });
+
+      function Uploadimage() {
+        document.getElementById("texture").click();
+      }
+    </script>
+  </body>
+</html>
